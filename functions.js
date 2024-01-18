@@ -77,21 +77,14 @@ function checkCollisions() {
   }
 
   // Collision with walls
-  if (
-    (heli.x + heli.w > wall1.x &&
-      heli.x < wall1.x + wall1.w &&
-      (heli.y < wall1.y || heli.y + heli.h > wall1.y + wall1.h)) ||
-    (heli.x + heli.w > wall2.x &&
-      heli.x < wall2.x + wall2.w &&
-      (heli.y < wall2.y || heli.y + heli.h > wall2.y + wall2.h)) ||
-    (heli.x + heli.w > wall3.x &&
-      heli.x < wall3.x + wall3.w &&
-      (heli.y < wall3.y || heli.y + heli.h > wall3.y + wall3.h))
-  ) {
+  if (heli.x < wall1.x + wall1.w && heli.x + heli.w > wall1.x && heli.y + heli.h > wall1.y && heli.y < wall1.y + wall1.h) { 
     gameOver();
+  } else if (heli.x < wall2.x + wall2.w && heli.x + heli.w > wall2.x && heli.y + heli.h > wall2.y && heli.y < wall2.y + wall2.h) { 
+    gameOver();
+} else if (heli.x < wall3.x + wall3.w && heli.x + heli.w > wall3.x && heli.y + heli.h > wall3.y && heli.y < wall3.y + wall3.h) {
+gameOver();
   }
 }
-
 function gameOver() {
   explosion.play();
   state = "gameover";
