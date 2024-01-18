@@ -26,7 +26,6 @@ let wall3;
 let distance = 0;
 let bestDistance = 0;
 let wallSpeed = 3; // Initial wall speed
-
 reset();
 
 // Draw Function

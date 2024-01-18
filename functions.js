@@ -30,7 +30,6 @@ function moveHeli() {
   if (mouseIsPressed) {
     heli.speed += -1;
   }
-
   // Apply gravity
   heli.speed += heli.a;
 
@@ -47,7 +46,7 @@ function moveHeli() {
 
 function moveWalls() {
   // Increase wall speed as the game progresses
-  wallSpeed += 0.001;
+  wallSpeed += 0.01;
 
   // Wall 1
   wall1.x += -wallSpeed;
@@ -96,8 +95,9 @@ function checkCollisions() {
 function gameOver() {
   explosion.play();
   state = "gameover";
-
-  // Update best distance
+}
+// Update best distance
+function updateDistance() {
   if (distance > bestDistance) {
     bestDistance = distance;
   }
@@ -166,9 +166,30 @@ function reset() {
   };
 }
 
+function drawMainComponents() {
+  // Background
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, cnv.width, cnv.height);
+
+  // Green Bars
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, 0, cnv.width, 50);
+  ctx.fillRect(0, cnv.height - 50, cnv.width, 50);
+
+  // Green Bar Text
+  ctx.font = "30px Consolas";
+  ctx.fillStyle = "black";
+  ctx.fillText("HELICOPTER GAME", 25, 35);
+  ctx.fillText("DISTANCE: 0", 25, cnv.height - 15);
+  ctx.fillText("BEST: 0", cnv.width - 250, cnv.height - 15);
+
+  // Helicopter
+  ctx.drawImage(heliImg, heli.x, heli.y);
+}
+
 function drawWalls() {
   ctx.fillStyle = "green";
   ctx.fillRect(wall1.x, wall1.y, wall1.w, wall1.h);
   ctx.fillRect(wall2.x, wall2.y, wall2.w, wall2.h);
-  ctx.fillRect(wall);
+  ctx.fillRect(wall3.x, wall3.y, wall3.w, wall3.h);
 }
