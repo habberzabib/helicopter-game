@@ -19,7 +19,7 @@ function runGame() {
   moveHeli();
   moveWalls();
   checkCollisions();
-  updateDistance();
+  distance++;
 
   // Draw
   drawGame();
@@ -46,7 +46,7 @@ function moveHeli() {
 
 function moveWalls() {
   // Increase wall speed as the game progresses
-  wallSpeed += 0.01;
+  wallSpeed += 0.001;
 
   // Wall 1
   wall1.x += -wallSpeed;
@@ -74,28 +74,39 @@ function checkCollisions() {
   // Collision with top and bottom green
   if (heli.y < 50 || heli.y + heli.h > cnv.height - 50) {
     gameOver();
+    setTimeout(reset, 2000);
   }
 
   // Collision with walls
-  if (heli.x < wall1.x + wall1.w && heli.x + heli.w > wall1.x && heli.y + heli.h > wall1.y && heli.y < wall1.y + wall1.h) { 
+  if (
+    heli.x < wall1.x + wall1.w &&
+    heli.x + heli.w > wall1.x &&
+    heli.y + heli.h > wall1.y &&
+    heli.y < wall1.y + wall1.h
+  ) {
     gameOver();
-  } else if (heli.x < wall2.x + wall2.w && heli.x + heli.w > wall2.x && heli.y + heli.h > wall2.y && heli.y < wall2.y + wall2.h) { 
+    setTimeout(reset, 2000);
+  } else if (
+    heli.x < wall2.x + wall2.w &&
+    heli.x + heli.w > wall2.x &&
+    heli.y + heli.h > wall2.y &&
+    heli.y < wall2.y + wall2.h
+  ) {
     gameOver();
-} else if (heli.x < wall3.x + wall3.w && heli.x + heli.w > wall3.x && heli.y + heli.h > wall3.y && heli.y < wall3.y + wall3.h) {
-gameOver();
+    setTimeout(reset, 2000);
+  } else if (
+    heli.x < wall3.x + wall3.w &&
+    heli.x + heli.w > wall3.x &&
+    heli.y + heli.h > wall3.y &&
+    heli.y < wall3.y + wall3.h
+  ) {
+    gameOver();
+    setTimeout(reset, 2000);
   }
 }
 function gameOver() {
   explosion.play();
   state = "gameover";
-}
-// Update best distance
-function updateDistance() {
-  if (distance > bestDistance) {
-    bestDistance = distance;
-  }
-
-  setTimeout(reset, 2000);
 }
 
 // Draw Game Elements
@@ -123,7 +134,10 @@ function drawGameOver() {
 
   // Best Distance Text
   ctx.font = "20px Consolas";
-  ctx.fillText("BEST: " + bestDistance, cnv.width - 150, cnv.height - 15);
+  if (distance > best) {
+    best = distance;
+  }
+  ctx.fillText("BEST: " + best, cnv.width - 150, cnv.height - 15);
 }
 
 // Helper functions
@@ -157,6 +171,9 @@ function reset() {
     w: 50,
     h: 100,
   };
+
+  //reset distance
+  distance = 0;
 }
 
 function drawMainComponents() {
@@ -173,9 +190,11 @@ function drawMainComponents() {
   ctx.font = "30px Consolas";
   ctx.fillStyle = "black";
   ctx.fillText("HELICOPTER GAME", 25, 35);
-  ctx.fillText("DISTANCE: 0", 25, cnv.height - 15);
-  ctx.fillText("BEST: 0", cnv.width - 250, cnv.height - 15);
-
+  ctx.fillText("DISTANCE: " + distance, 25, cnv.height - 15);
+  ctx.fillStyle = "green";
+  ctx.fillRect(cnv.width - 250, cnv.height - 50, 200, 50);
+  ctx.fillStyle = "black";
+  ctx.fillText("BEST: " + best, cnv.width - 250, cnv.height - 15);
   // Helicopter
   ctx.drawImage(heliImg, heli.x, heli.y);
 }

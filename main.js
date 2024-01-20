@@ -24,7 +24,7 @@ let wall1;
 let wall2;
 let wall3;
 let distance = 0;
-let bestDistance = 0;
+let best = 0;
 let wallSpeed = 3; // Initial wall speed
 reset();
 
